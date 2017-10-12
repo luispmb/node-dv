@@ -488,6 +488,33 @@ Nan::NAN_METHOD_RETURN_TYPE Tesseract::TransformResult(tesseract::PageIteratorLe
                 // Extract confidence.
                 float confidence = static_cast<tesseract::ResultIterator *>(it)->Confidence(level);
                 result->Set(Nan::New("confidence").ToLocalChecked(), Nan::New<Number>(confidence));
+
+                // Extract word font attributes
+                int pointsize, font_id;
+                bool bold, italic, underlined, monospace, serif, smallcaps;
+                const char *font_attributes = static_cast<tesseract::ResultIterator *>(it)->WordFontAttributes(&bold, 
+                                                                                    &italic, &underlined,
+                                                                                    &monospace, &serif,
+                                                                                    &smallcaps, &pointsize,
+                                                                                    &font_id);
+
+                printf("%s \t=> fontname: %s, size: %d, font_id: %d, bold: %d,"\
+                       " italic: %d, underlined: %d, monospace: %d, serif: %d,"\
+                       " smallcap: %d\n", text, font_attributes, pointsize, font_id,
+                       bold, italic, underlined, monospace, serif, smallcaps);
+
+                Handle<Object> font_attributes_ = Nan::New<Object>();
+                font_attributes_->Set(Nan::New("bold").ToLocalChecked(), Nan::New<Boolean>(bold));
+                font_attributes_->Set(Nan::New("italic").ToLocalChecked(), Nan::New<Boolean>(italic));
+                font_attributes_->Set(Nan::New("underlined").ToLocalChecked(), Nan::New<Boolean>(underlined));
+                font_attributes_->Set(Nan::New("monospace").ToLocalChecked(), Nan::New<Boolean>(monospace));
+                font_attributes_->Set(Nan::New("serif").ToLocalChecked(), Nan::New<Boolean>(serif));
+                font_attributes_->Set(Nan::New("smallcaps").ToLocalChecked(), Nan::New<Boolean>(smallcaps));
+                font_attributes_->Set(Nan::New("fontname").ToLocalChecked(), Nan::New(font_attributes).ToLocalChecked());
+                font_attributes_->Set(Nan::New("pointsize").ToLocalChecked(), Nan::New<Number>(pointsize));
+                font_attributes_->Set(Nan::New("font_id").ToLocalChecked(), Nan::New<Number>(font_id));
+
+                result->Set(Nan::New("font_attributes_").ToLocalChecked(), font_attributes_);
             }
         }
         if (level == tesseract::RIL_SYMBOL && recognize) {
