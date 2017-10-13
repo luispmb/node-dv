@@ -498,10 +498,10 @@ Nan::NAN_METHOD_RETURN_TYPE Tesseract::TransformResult(tesseract::PageIteratorLe
                                                                                     &smallcaps, &pointsize,
                                                                                     &font_id);
 
-                printf("%s \t=> fontname: %s, size: %d, font_id: %d, bold: %d,"\
+                /*printf("%s \t=> fontname: %s, size: %d, font_id: %d, bold: %d,"\
                        " italic: %d, underlined: %d, monospace: %d, serif: %d,"\
                        " smallcap: %d\n", text, font_attributes, pointsize, font_id,
-                       bold, italic, underlined, monospace, serif, smallcaps);
+                       bold, italic, underlined, monospace, serif, smallcaps);*/
 
                 Handle<Object> font_attributes_ = Nan::New<Object>();
                 font_attributes_->Set(Nan::New("bold").ToLocalChecked(), Nan::New<Boolean>(bold));
