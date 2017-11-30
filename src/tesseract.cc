@@ -479,7 +479,7 @@ Nan::NAN_METHOD_RETURN_TYPE Tesseract::TransformResult(tesseract::PageIteratorLe
             box->Set(Nan::New("height").ToLocalChecked(), Nan::New<Int32>(bottom - top));
             result->Set(Nan::New("box").ToLocalChecked(), box);
         }
-        if (level != tesseract::RIL_TEXTLINE && recognize) {
+        if (/*level != tesseract::RIL_TEXTLINE && */recognize) {
             // Extract text.
             char *text = static_cast<tesseract::ResultIterator *>(it)->GetUTF8Text(level);
             if (text) {
